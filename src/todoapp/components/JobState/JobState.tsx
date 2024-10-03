@@ -1,4 +1,4 @@
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 // import Image from "../../../public/images.png";
 
 export default function JobState() {
@@ -8,7 +8,7 @@ export default function JobState() {
     { id: 3, title: "entertainment", state: "LightPink" },
     { id: 4, title: "family", state: "LawnGreen" },
   ];
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
     <aside>
@@ -24,11 +24,11 @@ export default function JobState() {
           <span>{job.title}</span>
         </div>
       ))}
-
+      {/* 
       <div>
         <Checkbox {...label} />
         <label className="text-sm">Show completed tasks</label>
-      </div>
+      </div> */}
       {/* <img src={Image} alt="" width={"100px"} className="mt-10"/> */}
     </aside>
   );

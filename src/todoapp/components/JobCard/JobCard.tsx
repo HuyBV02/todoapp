@@ -21,9 +21,10 @@ export default function JobCard({
 
   const states = state.filter((item) => task.types.includes(String(item.id)));
 
-  let checked = task.isCompleted;
+  // let checked = task.isCompleted;
+  // console.log(checked)
 
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
     <article
@@ -33,7 +34,7 @@ export default function JobCard({
       <div className="flex justify-between items-center ">
         <h3 className="font-bold">{task.title}</h3>
 
-        <div className="">{task.createdAt.slice(0, 10)}</div>
+        {/* <div className="">{task.createdAt.slice(0, 10)}</div> */}
       </div>
       <p className="py-3">{task.description}</p>
       <div className="flex items-center justify-between">
@@ -51,8 +52,8 @@ export default function JobCard({
           ))}
         </div>
         <div className="flex items-center">
-          <label className="text-sm">Completed</label>
-          <Checkbox {...label} checked={checked} />
+          {/* <label className="text-sm">Completed</label>
+          <Checkbox {...label} checked={checked} /> */}
           <span
             title="Edit"
             className="cursor-pointer m2-2"

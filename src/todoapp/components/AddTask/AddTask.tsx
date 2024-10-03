@@ -1,7 +1,6 @@
 import { Button, Form, Select, Space, Input } from "antd";
-import { Link,useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToDo } from "../../../types/todo.type";
-import { useState } from "react";
 import { useAppDispatch } from "../../../store";
 import { addTask } from "../../todo.slice";
 
@@ -12,29 +11,16 @@ const formItemLayout = {
   wrapperCol: { span: 14 },
 };
 
-const initialValues: ToDo = {
-  title: "",
-  description: "",
-  types: [],
-  isCompleted: false,
-  createdAt: new Date().toISOString(),
-  id: "",
-};
 
 export default function AddTask() {
-  const [formData, setFormData] = useState<ToDo>(initialValues);
+  const [formData] = Form.useForm();
   const dispatch = useAppDispatch();
-
-  const handleInputChange = (name: string, value: any) => {
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
 
   const navigate = useNavigate();
 
   const handleSubmit = (value: ToDo) => {
     dispatch(addTask(value));
     navigate("/");
-
   };
 
   console.log(formData);
@@ -42,10 +28,11 @@ export default function AddTask() {
   return (
     <div className="mt-[100px]">
       <Form
+        form={formData}
         className="flex-form p-10 border border-gray-200 rounded-lg shadow-xl"
         name="validate_other"
         {...formItemLayout}
-        onFinish={() => handleSubmit(formData)}
+        onFinish={(values) => handleSubmit(values)}
         initialValues={{
           "color-picker": null,
         }}
@@ -63,16 +50,10 @@ export default function AddTask() {
           </span>
         </Form.Item>
         <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-          <Input
-            value={formData.title}
-            onChange={(e) => handleInputChange("title", e.target.value)}
-          />
+          <Input />
         </Form.Item>
         <Form.Item name="description" label="Description">
-          <Input.TextArea
-            value={formData.description}
-            onChange={(e) => handleInputChange("description", e.target.value)}
-          />
+          <Input.TextArea />
         </Form.Item>
         <Form.Item
           name="types"
@@ -85,12 +66,7 @@ export default function AddTask() {
             },
           ]}
         >
-          <Select
-            mode="multiple"
-            placeholder="Please select labels..."
-            value={formData.types}
-            onChange={(value) => handleInputChange("types", value)}
-          >
+          <Select mode="multiple" placeholder="Please select labels...">
             <Option value="1">Work</Option>
             <Option value="2">Study</Option>
             <Option value="3">Entertainment</Option>

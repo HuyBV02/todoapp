@@ -1,7 +1,7 @@
 import { Button, Form, Select, Space, Input } from "antd";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToDo } from "../../../types/todo.type";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RootState, useAppDispatch } from "../../../store";
 import { useSelector } from "react-redux";
 import { editTask } from "../../todo.slice";
@@ -22,37 +22,34 @@ const initialValues: ToDo = {
 };
 
 export default function EditTask() {
-  const [formData, setFormData] = useState<ToDo>(initialValues);
+  const [formData] = Form.useForm();
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
 
+  const {id} = useParams();
+
   const editingData = useSelector((state: RootState) => state.todo.editing);
-  
+
   useEffect(() => {
-    setFormData(editingData || initialValues);
-  }, [editingData]);
-
-
-  const handleInputChange = (name: string, value: any) => {
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
+    formData.setFieldsValue(editingData || initialValues);
+  }, [editingData, formData]);
 
   const handleSubmit = (value: ToDo) => {
     dispatch(editTask(value));
-
-    setFormData(initialValues);
+    formData.resetFields(); 
     navigation("/");
   };
 
-  console.log("form", formData);
+  console.log("form", formData.getFieldsValue());
 
   return (
     <div className="mt-[100px]">
       <Form
+        form={formData}
         className="flex-form p-10 border border-gray-200 rounded-lg shadow-xl"
         name="validate_other"
         {...formItemLayout}
-        onFinish={() => handleSubmit(formData)}
+        onFinish={(values)=>handleSubmit({...values, id: id})}
         initialValues={{
           "color-picker": null,
         }}
@@ -70,16 +67,10 @@ export default function EditTask() {
           </span>
         </Form.Item>
         <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-          <Input
-            value={formData.title}
-            onChange={(e) => handleInputChange("title", e.target.value)}
-          />
+          <Input />
         </Form.Item>
         <Form.Item name="description" label="Description">
-          <Input.TextArea
-            value={formData.description}
-            onChange={(e) => handleInputChange("description", e.target.value)}
-          />
+          <Input.TextArea />
         </Form.Item>
         <Form.Item
           name="types"
@@ -92,12 +83,7 @@ export default function EditTask() {
             },
           ]}
         >
-          <Select
-            mode="multiple"
-            placeholder="Please select labels..."
-            value={formData.types}
-            onChange={(value) => handleInputChange("types", value)}
-          >
+          <Select mode="multiple" placeholder="Please select labels...">
             <Option value="1">Work</Option>
             <Option value="2">Study</Option>
             <Option value="3">Entertainment</Option>

@@ -77,7 +77,7 @@ export default function AddTask() {
         <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
           <Space>
             <Button type="primary" htmlType="submit">
-              Submit Test test tetsft
+              Submit Test test test test test test
             </Button>
             <Button>
               <Link to="/">Home</Link>
